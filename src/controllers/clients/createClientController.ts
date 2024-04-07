@@ -1,5 +1,5 @@
 import {Request, Response} from 'express'
-import { createClient } from '../../models/clients/createClient'
+import { createClientModel } from '../../models/clients/createClientModel'
 
 export async function createClientController(req: Request, res: Response){
     try{
@@ -11,7 +11,7 @@ export async function createClientController(req: Request, res: Response){
             })
         }
 
-        await createClient({name: nome, lastname: sobrenome, email: email, age: idade, photo: foto})
+        await createClientModel({name: nome, lastname: sobrenome, email: email, age: idade, photo: foto})
         res.status(201).send('Cliente criado com sucesso!');
     }catch(err){
         console.error('Erro ao criar cliente:', err);

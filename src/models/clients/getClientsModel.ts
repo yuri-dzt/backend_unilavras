@@ -1,8 +1,8 @@
 import connection from "../../configs/database"
-import { clientProps } from "./createClient"
+import { clientProps } from "./createClientModel"
 
 
-export const getAllClients = async ()=> {
+export const getAllClientsModel = async ()=> {
     try{
         const clients: clientProps[] | null = await new Promise((resolve, reject)=>{
             connection.query('SELECT * FROM clientes', (err, rows)=>{

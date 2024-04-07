@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import ChangeClient from "../../models/clients/changeClient";
+import ChangeClientModel from "../../models/clients/changeClientModel";
 
 export async function ChangeCLientController(req: Request, res:Response){
     try{
         const {clientId, clientInfos: {name, lastName, age} } = req.body
-        const response = await ChangeClient(clientId, {name, lastName, age})
+        const response = await ChangeClientModel(clientId, {name, lastName, age})
         res.status(200).json({
             message: response
         })

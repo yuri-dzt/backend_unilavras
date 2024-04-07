@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import GetAllProductsUseCase from "../../models/products/getAllProducts";
+import GetAllProductsModel from "../../models/products/getAllProductsModel";
 
 export async function GetAllProductsController(req: Request, res: Response){
     try{
-        const products = await GetAllProductsUseCase()
+        const products = await GetAllProductsModel()
         res.status(200).json(products)
     }catch(err){
         res.status(400).json({

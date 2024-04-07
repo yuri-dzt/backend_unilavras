@@ -1,6 +1,6 @@
 import connection from "../../configs/database";
 
-export default async function DeleteClient(clientId: string){
+export default async function DeleteClientModel(clientId: string){
     try{
         connection.query(`DELETE FROM clientes WHERE id = ${clientId}`)
         return "Cliente deletedo com sucesso"

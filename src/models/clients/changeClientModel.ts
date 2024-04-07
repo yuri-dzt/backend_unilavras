@@ -6,7 +6,7 @@ export interface ChangeClientProps{
     age?: number
 }
 
-export default async function ChangeClient(clientId: string, newInfos: ChangeClientProps ){
+export default async function ChangeClientModel(clientId: string, newInfos: ChangeClientProps ){
     try{
         if(newInfos.name){
             connection.query(`

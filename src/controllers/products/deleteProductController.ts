@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import DeleteProductUseCase from "../../models/products/deleteProduct";
+import DeleteProductModel from "../../models/products/deleteProductModel";
 
 
 export async function DeleteProductController(req: Request, res: Response){
     try{
         const {id} = req.params
-        const response = await DeleteProductUseCase(id)
+        const response = await DeleteProductModel(id)
         res.status(200).json({
             message: response
         })

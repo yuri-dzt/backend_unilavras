@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import DeleteClient from "../../models/clients/deleteClient";
+import DeleteClientModel from "../../models/clients/deleteClientModel";
 
 export async function DeleteClientController(req: Request, res: Response){
     try{
         const {id} = req.body
-        const message =  await DeleteClient(id)
+        const message =  await DeleteClientModel(id)
         res.status(200).send({
 message: message
         })

@@ -9,7 +9,7 @@ export interface clientProps{
     photo?: string
 }
 
-export async function createClient(client:clientProps ){
+export async function createClientModel(client:clientProps ){
    
    const clientAlreadyExists: clientProps | null = await new Promise((resolve, reject)=>{
     connection.query('SELECT * FROM clientes WHERE email = ?', [client.email], (err, rows)=>{

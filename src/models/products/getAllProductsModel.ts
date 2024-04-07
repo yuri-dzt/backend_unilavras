@@ -1,7 +1,7 @@
 import connection from "../../configs/database";
-import { ProductProps } from "./createProduct";
+import { ProductProps } from "./createProductModel";
 
-export default async function GetAllProductsUseCase(){
+export default async function GetAllProductsModel(){
     try{
         const Products: ProductProps[] | null = await new Promise((resolve, reject) => {
             connection.query(`SELECT * FROM produtos`, (err, rows)=>{
