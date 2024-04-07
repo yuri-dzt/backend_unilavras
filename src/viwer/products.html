@@ -12,7 +12,7 @@
     >
       <h1 class="text-blue-400 text-2xl">Client</h1>
       <a href="http://localhost:3300/">voltar</a>
-      <a href="http://localhost:3300/products">Produtos</a>
+      <a href="http://localhost:3300/client">Clients</a>
       <h2 class="text-white">Clientes:</h2>
 
       <div class="flex w-full gap-[40px]">
@@ -21,47 +21,42 @@
         >
           <div
             style="background: #ffffff20; margin-bottom: 33px"
-            class="bg-gray-500 place-items-center py-2 text-white px-10 rounded-lg grid grid-cols-4"
+            class="bg-gray-500 place-items-center py-2 text-white px-10 rounded-lg grid grid-cols-5"
           >
             <span class="w-full flex justify-center">Nome</span>
-            <span class="w-full flex justify-center">Email</span>
-            <span class="w-full flex justify-center">Idade</span>
+            <span class="w-full flex justify-center">Preço</span>
+            <span class="w-full flex justify-center">Descrição</span>
+            <span class="w-full flex justify-center">Data Atualização</span>
             <span class="w-full flex justify-center">Deletar</span>
           </div>
           <div
             class="flex overflow-x-scroll w-full flex-col gap-5"
-            id="clients"
+            id="productsList"
           ></div>
         </div>
-        <form id="ClientForm" class="w-[30%] flex flex-col gap-3">
-          <div>
+        <form id="ProductForm" class="w-[30%] flex flex-col gap-3">
+          <div class="flex flex-row">
             <input
-              class="w-2/4 h-10 rounded-lg border border-blue-500"
-              id="name"
+              class="w-3/5 h-10 rounded-lg border border-blue-500"
+              id="productName"
               placeholder="Nome"
               type="text"
             />
             <input
-              class="w-2/4 h-10 rounded-lg border border-blue-500"
-              id="lastname"
+              class="w-2/5 h-10 rounded-lg border border-blue-500"
+              id="price"
               placeholder="Sobrenome"
-              type="text"
-            />
-          </div>
-          <div>
-            <input
-              class="w-2/4 h-10 rounded-lg border border-blue-500"
-              id="email"
-              placeholder="Email"
-              type="text"
-            />
-            <input
-              class="w-2/4 h-10 rounded-lg border border-blue-500"
-              id="age"
-              placeholder="Idade"
               type="number"
             />
           </div>
+
+          <textarea
+            class="w-2/4 h-20 rounded-lg border border-blue-500"
+            id="description"
+            placeholder="Email"
+            type="text"
+          ></textarea>
+
           <button
             style="background-color: rgb(59 130 246 / var(--tw-bg-opacity))"
             type="submit"

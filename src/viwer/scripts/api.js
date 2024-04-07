@@ -1,16 +1,40 @@
 window.onload = () => {
   const clientBox = document.querySelector("#clients");
+  const productsBox = document.querySelector("#productsList");
 
   fetch("http://localhost:3300/api/clients")
-    .then((response) => response.json())
+    .then(async (response) => await response.json())
     .then((clients) => {
       clients.forEach((client) => {
         clientBox.innerHTML += `
         <div class="border border-gray-400 place-items-center py-2 text-white px-10 rounded-lg grid grid-cols-4">
-            <img class="w-10 h-10 bg-gray-400 rounded-full" src="${client.photo} alt="client foto" />
-            <span class="w-full flex justify-center">${client.name} ${client.lastname}</span>
-            <span class="w-full flex justify-center">${client.age}</span>
-            <span class="text-red-500">X</span>
+            <span class="w-full flex justify-center truncate">${client.name} ${client.lastname}</span>
+            <span class="w-full flex justify-center truncate">${client.email}</span>
+            <span class="w-full flex justify-center truncate">${client.age}</span>
+            <button onClick=(deleteClient(${client.id})) class="text-red-500 ">X</button>
+        </div>`;
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching clients:", error);
+    });
+
+  fetch("http://localhost:3300/api/products")
+    .then(async (response) => await response.json())
+    .then((products) => {
+      products.forEach((product) => {
+        const updated = new Date(product.updateDate);
+        productsBox.innerHTML += `
+        <div class="border border-gray-400 place-items-center py-2 text-white px-10 rounded-lg grid grid-cols-5">
+            <span class="w-full flex justify-center">${product.name}</span>
+            <span class="w-full flex justify-center">${product.price}</span>
+            <span class="w-full flex justify-center">${
+              product.description
+            }</span>
+            <span class="w-full flex justify-center">${updated.getDate()}/${updated.getMonth()}/${updated.getFullYear()}</span>
+            <button onClick=(deleteProduct(${
+              product.id
+            })) class="text-red-500">X</button>
         </div>`;
       });
     })
@@ -18,3 +42,120 @@ window.onload = () => {
       console.error("Error fetching clients:", error);
     });
 };
+
+const deleteClient = (clientId) => {
+  fetch(`http://localhost:3300/api/clients/${clientId}`, {
+    method: "DELETE",
+  })
+    .then((reponse) => {
+      if (!reponse.ok) {
+        alert("Erro");
+      }
+    })
+    .then((data) => {
+      location.reload();
+      alert(data.message || "");
+    });
+};
+
+const deleteProduct = (productId) => {
+  fetch(`http://localhost:3300/api/clients/${productId}`, {
+    method: "DELETE",
+  })
+    .then((reponse) => {
+      if (!reponse.ok) {
+        alert("Erro");
+      }
+    })
+    .then((data) => {
+      alert(data.message);
+      location.reload();
+    });
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("#ClientForm"); // Corrigido para selecionar pelo ID com '#'
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const lastName = document.getElementById("lastname").value;
+    const email = document.getElementById("email").value;
+    const age = document.getElementById("age").value;
+
+    const requestBody = JSON.stringify({
+      nome: name,
+      sobrenome: lastName,
+      email,
+      idade: age,
+    });
+
+    try {
+      fetch("http://localhost:3300/api/clients", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: requestBody,
+      })
+        .then((response) => {
+          if (!response.ok) {
+            alert("Erro ao criar cliente");
+          }
+        })
+        .then((data) => {
+          location.reload();
+        });
+    } catch (err) {
+      alert("err");
+    }
+
+    document.getElementById("name").value = "";
+    document.getElementById("lastname").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("age").value = "";
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("#ProductForm"); // Corrigido para selecionar pelo ID com '#'
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const name = document.getElementById("productName").value;
+    const price = document.getElementById("price").value;
+    const description = document.getElementById("description").value;
+
+    const requestBody = JSON.stringify({
+      name,
+      description,
+      price,
+    });
+
+    try {
+      fetch("http://localhost:3300/api/poducts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: requestBody,
+      })
+        .then((response) => {
+          if (!response.ok) {
+            alert("Erro ao criar cliente");
+          }
+        })
+        .then((data) => {
+          location.reload();
+        });
+    } catch (err) {
+      alert("err");
+    }
+
+    document.getElementById("productName").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("description").value = "";
+  });
+});

@@ -1,42 +1,42 @@
 import mysql from 'mysql'
 
-const connection  = mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: 'admin',
-    database: 'backend_unilavras'
+const connection = mysql.createConnection({
+  host: 'localhost',
+  port: 3306,
+  user: 'root',
+  password: 'admin',
+  database: 'backend_unilavras'
 })
 
-export async function connect() {
-    connection.connect((err)=>{
-        if(err){
-            console.error('Erro ao conectar ao banco de dados:', err)
-            return
-        }
-        console.log('Conexão bem-sucedida ao banco de dados!')
-    })
+export async function connect () {
+  connection.connect((err) => {
+    if (err) {
+      console.error('Erro ao conectar ao banco de dados:', err)
+      return
+    }
+    console.log('Conexão bem-sucedida ao banco de dados!')
+  })
 }
 
-export async function initializeDatabase(){
-    try{
-        connection.query('CREATE DATABASE IF NOT EXISTS backend_unilavras', (err) => {
-            if (err){
-                console.error('Erro ao criar o banco de dados:', err)
-                return
-            }
-            console.log('Banco de dados criado com sucesso!');
-        })
+export async function initializeDatabase () {
+  try {
+    connection.query('CREATE DATABASE IF NOT EXISTS backend_unilavras', (err) => {
+      if (err) {
+        console.error('Erro ao criar o banco de dados:', err)
+        return
+      }
+      console.log('Banco de dados criado com sucesso!')
+    })
 
-        connection.query('USE backend_unilavras', (err)=>{
-            if(err){
-                console.error('Erro ao conectar ao banco de dados:', err)
-                return
-            }
-            console.log('Usando o banco de dados backend_unilavras');
-        })
+    connection.query('USE backend_unilavras', (err) => {
+      if (err) {
+        console.error('Erro ao conectar ao banco de dados:', err)
+        return
+      }
+      console.log('Usando o banco de dados backend_unilavras')
+    })
 
-        connection.query(`
+    connection.query(`
         CREATE TABLE  IF NOT EXISTS produtos (
             id INT AUTO_INCREMENT PRIMARY KEY,
             nome VARCHAR(100) NOT NULL,
@@ -45,13 +45,13 @@ export async function initializeDatabase(){
             data_atualizado DATETIME
         );
         `, (err) => {
-            if (err) {
-                console.error('Erro ao criar a tabela produtos:', err);
-                return;
-            }
-            console.log('Tabela "produtos" criada com sucesso!');
-        })
-        connection.query(`
+      if (err) {
+        console.error('Erro ao criar a tabela produtos:', err)
+        return
+      }
+      console.log('Tabela "produtos" criada com sucesso!')
+    })
+    connection.query(`
         CREATE TABLE IF NOT EXISTS clientes (
             id INT AUTO_INCREMENT PRIMARY KEY,
             nome VARCHAR(100) NOT NULL,
@@ -61,16 +61,15 @@ export async function initializeDatabase(){
             foto VARCHAR(100)
         );
         `, (err) => {
-            if (err) {
-                console.error('Erro ao criar a tabela clientes:', err);
-                return;
-            }
-            console.log('Tabela "clientes" criada com sucesso!');
-        })
-
-    }catch(err){
-        console.error('Erro ao inicializar o banco de dados:', err);
-    }
+      if (err) {
+        console.error('Erro ao criar a tabela clientes:', err)
+        return
+      }
+      console.log('Tabela "clientes" criada com sucesso!')
+    })
+  } catch (err) {
+    console.error('Erro ao inicializar o banco de dados:', err)
+  }
 }
 
 export default connection
