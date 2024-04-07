@@ -5,12 +5,12 @@ export interface ProductProps{
     name: string,
     description?: string,
     price: number,
-    updateDate: string,
+    updateDate?: string,
 }
 
 export default async function CreateProductModel(product: ProductProps ){
     try{
-        const data = new Date(product.updateDate).toISOString().slice(0, 19).replace('T', ' ')
+        const data = new Date().toISOString().slice(0, 19).replace('T', ' ')
         connection.query(`
         INSERT INTO produtos (nome, descricao, preco, data_atualizado)
             VALUES ('${product.name}', '${product.description}', ${product.price}, '${data}')
