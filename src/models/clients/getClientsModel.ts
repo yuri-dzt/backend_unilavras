@@ -29,6 +29,6 @@ export const getAllClientsModel = async () => {
     })
     return clients
   } catch (err) {
-    throw new Error(`Erro: ${err}`)
+    throw new Error('Erro ao pegar cliente')
   }
 }
