@@ -4,7 +4,7 @@
   "description": "backend work express and npm",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch ./src/server.ts",
+    "dev": "tsx watch ./src/server.ts ",
     "database": "tsx ./src/configs/startDatabase.ts",
     "lint": "eslint src --ext .ts --fix"
   },
@@ -14,9 +14,13 @@
     "@types/eslint": "^8.56.6",
     "@types/express": "^4.17.21",
     "@types/mysql": "^2.15.26",
+    "@types/uuid": "^9.0.8",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mysql": "^2.18.1",
+    "node-cache": "^5.1.2",
     "tsx": "^4.7.1",
+    "uuid": "^9.0.1",
     "yarn": "^1.22.22"
   },
   "devDependencies": {

@@ -3,16 +3,10 @@ import { createClientModel } from '../../models/clients/createClientModel'
 
 export async function createClientController (req: Request, res: Response) {
   try {
-    const { nome, sobrenome, email, idade, foto } = req.body
+    const { nome, sobrenome, email, idade } = req.body
 
-    if (!nome || !email || !idade) {
-      return res.status(400).send({
-        message: 'Os campos nome, email e idade são obrigatórios'
-      })
-    }
-
-    await createClientModel({ name: nome, lastname: sobrenome, email, age: idade, photo: foto })
-    res.status(201).send('Cliente criado com sucesso!')
+    const newClient = await createClientModel({ name: nome, lastname: sobrenome, email, age: idade })
+    res.status(201).send(newClient)
   } catch (err) {
     console.error('Erro ao criar cliente:', err)
     res.status(500).send('Erro ao criar cliente: ' + (err as Error).message)

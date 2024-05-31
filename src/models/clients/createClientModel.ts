@@ -1,46 +1,32 @@
 import connection from '../../configs/database'
+import { CreateClientFactory } from '../../factories/client'
+import { type ClientProps } from '../../types/clients'
 
-export interface clientProps {
-  id?: string
-  name: string
-  lastname: string
-  email: string
-  age: number
-  photo?: string
-}
-
-export async function createClientModel (client: clientProps) {
-  const clientAlreadyExists: clientProps | null = await new Promise((resolve, reject) => {
-    connection.query('SELECT * FROM clientes WHERE email = ?', [client.email], (err, rows) => {
+export async function createClientModel (client: ClientProps) {
+  const clientAlreadyExists: string = await new Promise((resolve, reject) => {
+    connection.query(`SELECT nome FROM clientes WHERE email = "${client.email}"`, (err, rows) => {
       if (err) {
-        reject(err)
+        reject(new Error(`Algo deu errado ao criar o cliente ${(err as Error).message}`))
         return
       }
 
-      if (rows.length === 0) {
-        resolve(null)
-        return
-      }
-
-      resolve({
-        id: rows[0].id,
-        name: rows[0].nome,
-        lastname: rows[0].sobrenome,
-        email: rows[0].email,
-        age: rows[0].idade,
-        photo: rows[0].foto
-      })
+      const foundClient: string = rows.length > 0 && rows[0].nome
+       resolve(foundClient) //eslint-disable-line
     })
   })
-  if (clientAlreadyExists) throw new Error(`cliente já existe, client id: ${clientAlreadyExists.id}`)
-  try {
-    connection.query(`
-        INSERT INTO clientes (nome, sobrenome, email, idade, foto)
-            VALUES (?, ?, ?, ?, ?)
-        `, [client.name, client.lastname, client.email, client.age, client.photo])
 
-    console.log('novo cliente criado com sucesso!')
-  } catch (err) {
-    throw new Error('Erro ao criar cliente')
+  if (clientAlreadyExists) throw new Error(`cliente já existe: ${clientAlreadyExists}`)
+
+  if (!client.name || !client.email || !client.age) {
+    throw new Error('Os campos nome, email e idade são obrigatórios')
   }
+
+  const newClient = new CreateClientFactory().Create(client)
+
+  connection.query(`
+        INSERT INTO clientes (nome, sobrenome, email, idade)
+            VALUES (?, ?, ?, ?)
+        `, [newClient.name, newClient.lastname, newClient.email, newClient.age])
+
+  return newClient
 }

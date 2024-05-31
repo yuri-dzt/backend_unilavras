@@ -2,7 +2,7 @@ window.onload = () => {
   const clientBox = document.querySelector("#clients");
   const productsBox = document.querySelector("#productsList");
 
-  fetch("http://localhost:3300/api/clients")
+  fetch(`http://localhost:3355/api/clients`)
     .then(async (response) => await response.json())
     .then((clients) => {
       clients.forEach((client) => {
@@ -19,7 +19,7 @@ window.onload = () => {
       console.error("Error fetching clients:", error);
     });
 
-  fetch("http://localhost:3300/api/products")
+  fetch(`http://localhost:3355/api/products`)
     .then(async (response) => await response.json())
     .then((products) => {
       products.forEach((product) => {
@@ -44,7 +44,7 @@ window.onload = () => {
 };
 
 const deleteClient = (clientId) => {
-  fetch(`http://localhost:3300/api/clients/${clientId}`, {
+  fetch(`http://localhost:3355/api/clients/${clientId}`,{
     method: "DELETE",
   })
     .then((reponse) => {
@@ -59,7 +59,7 @@ const deleteClient = (clientId) => {
 };
 
 const deleteProduct = (productId) => {
-  fetch(`http://localhost:3300/api/clients/${productId}`, {
+  fetch(`http://localhost:3355/api/clients/${productId}`,{
     method: "DELETE",
   })
     .then((reponse) => {
@@ -91,8 +91,10 @@ document.addEventListener("DOMContentLoaded", function () {
       idade: age,
     });
 
+    
+
     try {
-      fetch("http://localhost:3300/api/clients", {
+      fetch(`http://localhost:3355/api/clients`,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -101,14 +103,16 @@ document.addEventListener("DOMContentLoaded", function () {
       })
         .then((response) => {
           if (!response.ok) {
-            alert("Erro ao criar cliente");
+            throw new Error("Erro ao criar cliente");
           }
         })
         .then((data) => {
+          console.log(data);
+          document.querySelector("#requestMessage").innerHTML = 'Cliente criado com sucesso!';
           location.reload();
         });
     } catch (err) {
-      alert("err");
+      console.error("Erro ao criar cliente:", err.message);
     }
 
     document.getElementById("name").value = "";
@@ -135,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     try {
-      fetch("http://localhost:3300/api/poducts", {
+      fetch(`http://localhost:3355/api/poducts"`,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",

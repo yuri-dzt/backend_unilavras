@@ -2,12 +2,18 @@ import express, { type Request, type Response } from 'express'
 import clientRouters from './routers/clients'
 import productRouters from './routers/products'
 import path from 'path'
+import dotenv from 'dotenv'
 
 const app = express()
+
+dotenv.config()
 
 app.use(express.json())
 app.use('/api', clientRouters)
 app.use('/api', productRouters)
+app.use('/api', (req: Request, res: Response) => {
+  res.send('Hello World')
+})
 app.use(express.static(path.join(__dirname, 'viwer')))
 app.get('/', (req: Request, res: Response) => {
   res.set('Content-Type', 'text/html')
@@ -22,8 +28,10 @@ app.get('/products', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'viwer', 'products.html'))
 })
 
-app.listen('3300', () => {
-  console.log('api running on port 3300')
+const port = process.env.DEV_PORT ? Number(process.env.DEV_PORT) : 3000
+
+app.listen(port, () => {
+  console.log(`api running on port ${port}`)
 })
 
 /**
