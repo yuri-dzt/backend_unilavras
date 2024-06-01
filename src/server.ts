@@ -1,6 +1,7 @@
 import express, { type Request, type Response } from 'express'
 import clientRouters from './routers/clients'
 import productRouters from './routers/products'
+import adminRouters from './routers/admin'
 import path from 'path'
 import dotenv from 'dotenv'
 
@@ -10,6 +11,7 @@ dotenv.config()
 
 app.use(express.json())
 app.use('/api', clientRouters)
+app.use('/api', adminRouters)
 app.use('/api', productRouters)
 app.use('/api', (req: Request, res: Response) => {
   res.send('Hello World')

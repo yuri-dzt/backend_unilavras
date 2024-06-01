@@ -1,5 +1,6 @@
 import mysql from 'mysql'
 import dotenv from 'dotenv'
+import bcrypt from 'bcrypt'
 
 dotenv.config()
 
@@ -69,6 +70,46 @@ export async function initializeDatabase () {
         return
       }
       console.log('Tabela "clientes" criada com sucesso!')
+    })
+    connection.query(`
+    CREATE TABLE IF NOT EXISTS admin (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        senha VARCHAR(100) NOT NULL
+    );
+  `, (err) => {
+      if (err) {
+        console.error('Erro ao criar a tabela admin:', err)
+        return
+      }
+      console.log('Tabela "admin" criada com sucesso!')
+    })
+
+    /* ACCOUNTS EXAMPLE: {
+      email: 'yuri@gmail.com',
+      password: 'yuri123'
+    }
+    {
+      email: 'pedro@gmail.com',
+      password: 'pedro123'
+    }
+      */
+    const adminEmail = 'pedro@gmail.com'
+    const adminPassword = 'pedro123'
+    const saltRounds = 10
+    const hashedPassword = await bcrypt.hash(adminPassword, saltRounds)
+
+    // Inserir um admin na tabela
+    connection.query(`
+      INSERT INTO admin (email, senha)
+      VALUES (?, ?)
+      ON DUPLICATE KEY UPDATE email=email;
+    `, [adminEmail, hashedPassword], (err) => {
+      if (err) {
+        console.error('Erro ao inserir admin:', err)
+        return
+      }
+      console.log('Admin inserido com sucesso!')
     })
   } catch (err) {
     console.error('Erro ao inicializar o banco de dados:', err)
