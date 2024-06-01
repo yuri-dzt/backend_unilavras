@@ -36,7 +36,7 @@ submit.addEventListener('click', async () => {
   const password = inputPassword.value;
 
   try {
-    const response = await fetch('http://localhost:3355/api/', {
+    const response = await fetch('http://localhost:3355/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -48,6 +48,7 @@ submit.addEventListener('click', async () => {
 
     if (result.success) {
       alert('Login bem-sucedido!');
+      window.location.href = 'http://localhost:3355/client';
     } else {
       alert('Falha no login: ' + result.message);
     }
