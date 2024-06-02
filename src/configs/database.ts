@@ -94,8 +94,8 @@ export async function initializeDatabase () {
       password: 'pedro123'
     }
       */
-    const adminEmail = 'pedro@gmail.com'
-    const adminPassword = 'pedro123'
+    const adminEmail = 'yuri@gmail.com'
+    const adminPassword = 'yuri123'
     const saltRounds = 10
     const hashedPassword = await bcrypt.hash(adminPassword, saltRounds)
 
